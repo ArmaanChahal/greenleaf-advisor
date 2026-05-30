@@ -1196,7 +1196,7 @@ elif page == "Ask GreenLeaf (AI)":
         fig.update_layout(showlegend=False, yaxis_title='', xaxis_title='Mean ROI',
                          plot_bgcolor='white', paper_bgcolor='#faf8f4', height=350,
                          margin=dict(l=0,r=50,t=10,b=30), xaxis=dict(tickformat='.0%'),
-                         title=dict(text='ROI by Treatment', font=dict(size=16)))
+                         )
         return fig
     
     def chart_precision_benefit():
@@ -1208,7 +1208,7 @@ elif page == "Ask GreenLeaf (AI)":
         fig.update_layout(showlegend=False, yaxis_title='', xaxis_title='Mean Precision Benefit ($)',
                          plot_bgcolor='white', paper_bgcolor='#faf8f4', height=350,
                          margin=dict(l=0,r=60,t=10,b=30), xaxis=dict(tickprefix='$'),
-                         title=dict(text='Precision Benefit by Treatment', font=dict(size=16)))
+                         )
         return fig
     
     def chart_profit_by_crop():
@@ -1220,7 +1220,7 @@ elif page == "Ask GreenLeaf (AI)":
         fig.update_layout(showlegend=False, yaxis_title='', xaxis_title='Mean Profit ($)',
                          plot_bgcolor='white', paper_bgcolor='#faf8f4', height=280,
                          margin=dict(l=0,r=60,t=10,b=30), xaxis=dict(tickprefix='$'),
-                         title=dict(text='Profit by Crop', font=dict(size=16)))
+                         )
         return fig
     
     def chart_response_timing():
@@ -1240,7 +1240,7 @@ elif page == "Ask GreenLeaf (AI)":
         fig.update_layout(showlegend=False, xaxis_title='', yaxis_title='% Stress Improved',
                          plot_bgcolor='white', paper_bgcolor='#faf8f4', height=300,
                          margin=dict(l=0,r=0,t=10,b=30),
-                         title=dict(text='Stress Recovery by Response Speed', font=dict(size=16)))
+                         )
         return fig
     
     def chart_strawberry_lift():
@@ -1276,7 +1276,7 @@ elif page == "Ask GreenLeaf (AI)":
         fig.update_layout(plot_bgcolor='white', paper_bgcolor='#faf8f4', height=300,
                          xaxis_title='Profit Lift vs Control ($)', yaxis_title='',
                          margin=dict(l=0,r=80,t=10,b=30), xaxis=dict(tickprefix='$'),
-                         title=dict(text='Strawberry: Lift vs Control (with 95% CI)', font=dict(size=16)))
+                         )
         return fig
     
     def chart_alert_types():
@@ -1294,7 +1294,7 @@ elif page == "Ask GreenLeaf (AI)":
         fig.update_layout(showlegend=False, yaxis_title='', xaxis_title='Alert Count',
                          plot_bgcolor='white', paper_bgcolor='#faf8f4', height=280,
                          margin=dict(l=0,r=120,t=10,b=30),
-                         title=dict(text='Alerts by Type (with ignore rate)', font=dict(size=16)))
+                         )
         return fig
     
     def chart_top_urgent():
@@ -1315,7 +1315,7 @@ elif page == "Ask GreenLeaf (AI)":
         fig.update_layout(yaxis=dict(categoryorder='total ascending', title=''),
                          xaxis_title='Urgency Score', plot_bgcolor='white', paper_bgcolor='#faf8f4',
                          height=350, margin=dict(l=0,r=40,t=10,b=30),
-                         title=dict(text='Top 10 Urgent Plots', font=dict(size=16)),
+                         
                          legend=dict(orientation='h', yanchor='bottom', y=1.02))
         return fig
     
@@ -1334,19 +1334,19 @@ elif page == "Ask GreenLeaf (AI)":
         fig.update_layout(plot_bgcolor='white', paper_bgcolor='#faf8f4', height=350,
                          xaxis_title='', yaxis_title='Mean Cost ($)', yaxis=dict(tickprefix='$'),
                          margin=dict(l=0,r=0,t=10,b=30),
-                         title=dict(text='Precision vs Routine Spend by Treatment', font=dict(size=16)),
+                         
                          legend=dict(orientation='h', yanchor='bottom', y=1.02))
         return fig
     
     CHART_CATALOG = {
-        'roi_by_treatment': {'fn': chart_roi_by_treatment, 'desc': 'ROI by treatment (bar)'},
-        'precision_benefit': {'fn': chart_precision_benefit, 'desc': 'Precision benefit by treatment (bar)'},
-        'profit_by_crop': {'fn': chart_profit_by_crop, 'desc': 'Profit by crop (bar)'},
-        'response_timing': {'fn': chart_response_timing, 'desc': 'Stress recovery by response speed (bar)'},
-        'strawberry_lift': {'fn': chart_strawberry_lift, 'desc': 'Strawberry profit lift vs Control with CIs (bar)'},
-        'alert_types': {'fn': chart_alert_types, 'desc': 'Alert type distribution and ignore rates (bar)'},
-        'top_urgent': {'fn': chart_top_urgent, 'desc': 'Top 10 urgent plots by urgency score (bar)'},
-        'cost_breakdown': {'fn': chart_cost_breakdown, 'desc': 'Precision vs routine spend by treatment (stacked bar)'},
+        'roi_by_treatment': {'fn': chart_roi_by_treatment, 'desc': 'ROI by treatment (bar)', 'title': 'ROI by Treatment'},
+        'precision_benefit': {'fn': chart_precision_benefit, 'desc': 'Precision benefit by treatment (bar)', 'title': 'Precision Benefit by Treatment'},
+        'profit_by_crop': {'fn': chart_profit_by_crop, 'desc': 'Profit by crop (bar)', 'title': 'Profit by Crop'},
+        'response_timing': {'fn': chart_response_timing, 'desc': 'Stress recovery by response speed (bar)', 'title': 'Stress Recovery by Response Speed'},
+        'strawberry_lift': {'fn': chart_strawberry_lift, 'desc': 'Strawberry profit lift vs Control with CIs (bar)', 'title': 'Strawberry: Lift vs Control (95% CI)'},
+        'alert_types': {'fn': chart_alert_types, 'desc': 'Alert type distribution and ignore rates (bar)', 'title': 'Alerts by Type (with Ignore Rate)'},
+        'top_urgent': {'fn': chart_top_urgent, 'desc': 'Top 10 urgent plots by urgency score (bar)', 'title': 'Top 10 Urgent Plots'},
+        'cost_breakdown': {'fn': chart_cost_breakdown, 'desc': 'Precision vs routine spend by treatment (stacked bar)', 'title': 'Precision vs Routine Spend'},
     }
     
     # ── System prompt: visual-first, structured JSON output ──
@@ -1418,6 +1418,7 @@ DATASET FACTS:
                     for j, chart_id in enumerate(vis['charts']):
                         if chart_id in CHART_CATALOG:
                             with cols[j]:
+                                st.markdown(f"**{CHART_CATALOG[chart_id]['title']}**")
                                 st.plotly_chart(CHART_CATALOG[chart_id]['fn'](), use_container_width=True)
     
     # Chat input
@@ -1491,6 +1492,7 @@ DATASET FACTS:
                 for j, cid in enumerate(chart_ids):
                     if cid in CHART_CATALOG:
                         with cols[j]:
+                            st.markdown(f"**{CHART_CATALOG[cid]['title']}**")
                             st.plotly_chart(CHART_CATALOG[cid]['fn'](), use_container_width=True)
             
             # Web context section
