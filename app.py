@@ -180,7 +180,8 @@ st.markdown("""
 # ─────────────────────────────────────────────
 @st.cache_data
 def load_data():
-    DATA = './data'
+    from pathlib import Path
+    DATA = str(Path(__file__).parent / 'data')
     farms = pd.read_csv(f'{DATA}/farms.csv')
     greenhouses = pd.read_csv(f'{DATA}/greenhouses.csv')
     plots = pd.read_csv(f'{DATA}/plots.csv')
@@ -1169,14 +1170,20 @@ elif page == "Ask GreenLeaf (AI)":
     st.markdown("*Ask a question. Get a chart and a short answer, not a wall of text.*")
     
     import os, json
-    api_key = os.environ.get('OPENAI_API_KEY', '')
+    
+    # Check for API key: st.secrets (Streamlit Cloud) → env var → manual input
+    api_key = ''
+    try:
+        api_key = st.secrets["OPENAI_API_KEY"]
+    except (KeyError, FileNotFoundError):
+        api_key = os.environ.get('OPENAI_API_KEY', '')
     
     if not api_key:
         api_key = st.text_input("Enter your OpenAI API key:", type="password",
-                                help="Set OPENAI_API_KEY env var or paste here.")
+                                help="Set in Streamlit Cloud secrets or OPENAI_API_KEY env var.")
     
     if not api_key:
-        st.info("Set OPENAI_API_KEY environment variable or paste your key above.")
+        st.info("Enter an OpenAI API key to enable AI-powered Q&A.")
         st.stop()
     
     # ── Pre-built chart catalog (uses REAL data, not LLM-generated) ──
@@ -1396,10 +1403,15 @@ DATASET FACTS:
     
     # Display history
     for i, msg in enumerate(st.session_state.messages):
-        with st.chat_message(msg['role']):
-            st.markdown(msg['content'].replace('$', '\\$'))
-            # Re-render charts from history
-            if msg['role'] == 'assistant' and i < len(st.session_state.visual_history):
+        if msg['role'] == 'user':
+            with st.chat_message('user'):
+                st.markdown(msg['content'])
+        else:
+            # Assistant text only in bubble
+            safe = msg['content'].replace('$', '\\$') if msg['content'] else ''
+            st.markdown(safe)
+            # Charts rendered at full width outside any bubble
+            if i < len(st.session_state.visual_history):
                 vis = st.session_state.visual_history[i]
                 if vis and 'charts' in vis:
                     cols = st.columns(len(vis['charts'])) if len(vis['charts']) > 1 else [st.container()]
@@ -1416,94 +1428,101 @@ DATASET FACTS:
         with st.chat_message('user'):
             st.markdown(prompt)
         
-        with st.chat_message('assistant'):
-            with st.spinner("Analyzing data..."):
-                try:
-                    from openai import OpenAI
-                    client = OpenAI(api_key=api_key)
-                    
-                    response = client.chat.completions.create(
-                        model="gpt-4o-mini",
-                        messages=[
-                            {"role": "system", "content": visual_context},
-                            {"role": "user", "content": prompt},
-                        ],
-                        max_tokens=400,
-                        temperature=0.2,
-                    )
-                    
-                    raw = response.choices[0].message.content.strip()
-                    raw = raw.replace('```json', '').replace('```', '').strip()
-                    
-                    parsed_ok = False
-                    chart_ids = []
-                    try:
-                        result = json.loads(raw)
-                        parsed_ok = True
-                        
-                        # Render headline KPI
-                        if 'headline' in result and result['headline']:
-                            h = result['headline']
-                            st.markdown(f"""
-                            <div class="kpi-card accent" style="margin-bottom: 16px;">
-                                <div class="kpi-label">{h.get('label', '')}</div>
-                                <div class="kpi-value">{h.get('value', '')}</div>
-                                <div class="kpi-sub">{h.get('context', '')}</div>
-                            </div>
-                            """, unsafe_allow_html=True)
-                        
-                        # Render insight text
-                        if 'insight' in result:
-                            safe_text = result['insight'].replace('$', '\\$')
-                            st.markdown(safe_text)
-                        
-                        chart_ids = result.get('charts', [])
-                        st.session_state.messages.append({'role': 'assistant', 'content': result.get('insight', raw)})
-                        st.session_state.visual_history.append({'charts': chart_ids})
-                    
-                    except json.JSONDecodeError:
-                        st.markdown(raw.replace('$', '\\$'))
-                        st.session_state.messages.append({'role': 'assistant', 'content': raw})
-                        st.session_state.visual_history.append(None)
-                    
-                    # Render charts OUTSIDE chat bubble so they get full width and don't clip
-                    if chart_ids:
-                        cols = st.columns(len(chart_ids)) if len(chart_ids) > 1 else [st.container()]
-                        for j, cid in enumerate(chart_ids):
-                            if cid in CHART_CATALOG:
-                                with cols[j]:
-                                    st.plotly_chart(CHART_CATALOG[cid]['fn'](), use_container_width=True)
-                    
-                    # Web context section — real-time industry data
-                    if parsed_ok:
-                        with st.expander("🌐 Real-Time Market Context", expanded=True):
-                            with st.spinner("Searching for current B.C. agriculture data..."):
-                                try:
-                                    web_response = client.chat.completions.create(
-                                        model="gpt-4o-mini",
-                                        messages=[
-                                            {"role": "system", "content": (
-                                                "You are a B.C. agriculture market analyst. Given a question about greenhouse farming, "
-                                                "provide 2-3 SHORT bullet points of current real-world context that a farmer or lender "
-                                                "would find useful. Focus on: current B.C. produce prices, input cost trends (fertilizer, "
-                                                "natural gas, labor), relevant government programs or subsidies, and industry benchmarks. "
-                                                "Keep each bullet under 25 words. Use specific numbers and dates where possible. "
-                                                "Start each bullet with a bold label. Do NOT use dollar signs — write 'CAD' instead."
-                                            )},
-                                            {"role": "user", "content": f"The farmer asked: '{prompt}'. Give current market context for B.C. greenhouse agriculture relevant to this question."},
-                                        ],
-                                        max_tokens=250,
-                                        temperature=0.4,
-                                    )
-                                    web_text = web_response.choices[0].message.content.strip()
-                                    web_text = web_text.replace('$', '\\$')
-                                    st.markdown(web_text)
-                                    st.caption("Source: AI-generated market context based on training data. Verify current figures before making financial decisions.")
-                                except Exception:
-                                    st.caption("Market context unavailable.")
+        # Process the LLM response
+        parsed_ok = False
+        chart_ids = []
+        result = None
+        raw = ''
+        client = None
+        
+        with st.spinner("Analyzing data..."):
+            try:
+                from openai import OpenAI
+                client = OpenAI(api_key=api_key)
                 
-                except Exception as e:
-                    st.error(f"OpenAI error: {e}")
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": visual_context},
+                        {"role": "user", "content": prompt},
+                    ],
+                    max_tokens=400,
+                    temperature=0.2,
+                )
+                
+                raw = response.choices[0].message.content.strip()
+                raw = raw.replace('```json', '').replace('```', '').strip()
+                
+                try:
+                    result = json.loads(raw)
+                    parsed_ok = True
+                    chart_ids = result.get('charts', [])
+                    st.session_state.messages.append({'role': 'assistant', 'content': result.get('insight', raw)})
+                    st.session_state.visual_history.append({'charts': chart_ids})
+                except json.JSONDecodeError:
+                    st.session_state.messages.append({'role': 'assistant', 'content': raw})
+                    st.session_state.visual_history.append(None)
+            
+            except Exception as e:
+                st.error(f"OpenAI error: {e}")
+        
+        # ── Render everything OUTSIDE the chat bubble at full page width ──
+        if parsed_ok and result:
+            # Headline KPI card
+            if 'headline' in result and result['headline']:
+                h = result['headline']
+                st.markdown(f"""
+                <div class="kpi-card accent" style="margin-bottom: 16px; max-width: 500px;">
+                    <div class="kpi-label">{h.get('label', '')}</div>
+                    <div class="kpi-value">{h.get('value', '')}</div>
+                    <div class="kpi-sub">{h.get('context', '')}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            # Insight text
+            if 'insight' in result:
+                safe_text = result['insight'].replace('$', '\\$')
+                st.markdown(safe_text)
+            
+            # Charts at full width
+            if chart_ids:
+                st.markdown("&nbsp;")
+                cols = st.columns(len(chart_ids)) if len(chart_ids) > 1 else [st.container()]
+                for j, cid in enumerate(chart_ids):
+                    if cid in CHART_CATALOG:
+                        with cols[j]:
+                            st.plotly_chart(CHART_CATALOG[cid]['fn'](), use_container_width=True)
+            
+            # Web context section
+            if client:
+                with st.expander("🌐 Real-Time Market Context", expanded=True):
+                    with st.spinner("Searching for current B.C. agriculture data..."):
+                        try:
+                            web_response = client.chat.completions.create(
+                                model="gpt-4o-mini",
+                                messages=[
+                                    {"role": "system", "content": (
+                                        "You are a B.C. agriculture market analyst. Given a question about greenhouse farming, "
+                                        "provide 2-3 SHORT bullet points of current real-world context that a farmer or lender "
+                                        "would find useful. Focus on: current B.C. produce prices, input cost trends (fertilizer, "
+                                        "natural gas, labor), relevant government programs or subsidies, and industry benchmarks. "
+                                        "Keep each bullet under 25 words. Use specific numbers and dates where possible. "
+                                        "Start each bullet with a bold label. Do NOT use dollar signs — write 'CAD' instead."
+                                    )},
+                                    {"role": "user", "content": f"The farmer asked: '{prompt}'. Give current market context for B.C. greenhouse agriculture relevant to this question."},
+                                ],
+                                max_tokens=250,
+                                temperature=0.4,
+                            )
+                            web_text = web_response.choices[0].message.content.strip()
+                            web_text = web_text.replace('$', '\\$')
+                            st.markdown(web_text)
+                            st.caption("Source: AI-generated market context based on training data. Verify current figures before making financial decisions.")
+                        except Exception:
+                            st.caption("Market context unavailable.")
+        
+        elif raw:
+            st.markdown(raw.replace('$', '\\$'))
     
     # Suggested questions as clickable buttons
     st.markdown("---")
