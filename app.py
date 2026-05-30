@@ -1419,7 +1419,7 @@ DATASET FACTS:
                         if chart_id in CHART_CATALOG:
                             with cols[j]:
                                 st.markdown(f"**{CHART_CATALOG[chart_id]['title']}**")
-                                st.plotly_chart(CHART_CATALOG[chart_id]['fn'](), use_container_width=True)
+                                st.plotly_chart(CHART_CATALOG[chart_id]['fn'](), use_container_width=True, key=f"hist_{i}_{j}_{chart_id}")
     
     # Chat input
     if prompt := st.chat_input("Ask about the GreenLeaf data..."):
@@ -1493,7 +1493,7 @@ DATASET FACTS:
                     if cid in CHART_CATALOG:
                         with cols[j]:
                             st.markdown(f"**{CHART_CATALOG[cid]['title']}**")
-                            st.plotly_chart(CHART_CATALOG[cid]['fn'](), use_container_width=True)
+                            st.plotly_chart(CHART_CATALOG[cid]['fn'](), use_container_width=True, key=f"new_{len(st.session_state.messages)}_{j}_{cid}")
             
             # Blended market context in a styled box
             if client:
