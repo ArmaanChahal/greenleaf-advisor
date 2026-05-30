@@ -1524,15 +1524,30 @@ DATASET FACTS:
                         )
                         web_text = web_response.choices[0].message.content.strip()
                         web_text = web_text.replace('$', '\\$')
+                        # Convert markdown bold to HTML bold since we're inside unsafe_allow_html
+                        import re as _re
+                        web_text = _re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', web_text)
+                        # Convert markdown bullets to HTML list
+                        lines = web_text.split('\n')
+                        html_lines = []
+                        for line in lines:
+                            line = line.strip()
+                            if line.startswith('- ') or line.startswith('• '):
+                                html_lines.append(f"<li style='margin-bottom: 8px;'>{line[2:]}</li>")
+                            elif line:
+                                html_lines.append(f"<li style='margin-bottom: 8px;'>{line}</li>")
+                        web_html = '<ul style="margin: 0; padding-left: 20px;">' + ''.join(html_lines) + '</ul>'
+                        
                         st.markdown(f"""
                         <div style="background: white; border: 1px solid #d9d6cc; border-left: 4px solid #3a6b8c; 
-                                    border-radius: 0 8px 8px 0; padding: 18px 24px; margin-top: 8px;">
+                                    border-radius: 0 8px 8px 0; padding: 18px 24px; margin-top: 8px;
+                                    overflow-wrap: break-word; word-wrap: break-word;">
                             <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; 
-                                        color: #3a6b8c; font-weight: 600; margin-bottom: 10px;">
+                                        color: #3a6b8c; font-weight: 600; margin-bottom: 12px;">
                                 🌐 Connecting to the broader B.C. market
                             </div>
                             <div style="font-size: 14px; line-height: 1.7; color: #1a1a1a;">
-                                {web_text}
+                                {web_html}
                             </div>
                         </div>
                         """, unsafe_allow_html=True)
