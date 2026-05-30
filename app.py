@@ -1495,11 +1495,10 @@ DATASET FACTS:
                             st.markdown(f"**{CHART_CATALOG[cid]['title']}**")
                             st.plotly_chart(CHART_CATALOG[cid]['fn'](), use_container_width=True)
             
-            # Blended market context — appears as part of the analysis, not a separate section
+            # Blended market context in a styled box
             if client:
                 st.markdown("---")
-                st.markdown("**Connecting to the broader B.C. market:**")
-                with st.spinner(""):
+                with st.spinner("🔍 Searching the internet for B.C. market data..."):
                     try:
                         web_response = client.chat.completions.create(
                             model="gpt-4o-mini",
@@ -1525,7 +1524,18 @@ DATASET FACTS:
                         )
                         web_text = web_response.choices[0].message.content.strip()
                         web_text = web_text.replace('$', '\\$')
-                        st.markdown(web_text)
+                        st.markdown(f"""
+                        <div style="background: white; border: 1px solid #d9d6cc; border-left: 4px solid #3a6b8c; 
+                                    border-radius: 0 8px 8px 0; padding: 18px 24px; margin-top: 8px;">
+                            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; 
+                                        color: #3a6b8c; font-weight: 600; margin-bottom: 10px;">
+                                🌐 Connecting to the broader B.C. market
+                            </div>
+                            <div style="font-size: 14px; line-height: 1.7; color: #1a1a1a;">
+                                {web_text}
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
                     except Exception:
                         pass
         
