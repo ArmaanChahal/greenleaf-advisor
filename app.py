@@ -1495,33 +1495,39 @@ DATASET FACTS:
                             st.markdown(f"**{CHART_CATALOG[cid]['title']}**")
                             st.plotly_chart(CHART_CATALOG[cid]['fn'](), use_container_width=True)
             
-            # Web context section
+            # Blended market context — appears as part of the analysis, not a separate section
             if client:
-                with st.expander("🌐 Real-Time Market Context", expanded=True):
-                    with st.spinner("Searching for current B.C. agriculture data..."):
-                        try:
-                            web_response = client.chat.completions.create(
-                                model="gpt-4o-mini",
-                                messages=[
-                                    {"role": "system", "content": (
-                                        "You are a B.C. agriculture market analyst. Given a question about greenhouse farming, "
-                                        "provide 2-3 SHORT bullet points of current real-world context that a farmer or lender "
-                                        "would find useful. Focus on: current B.C. produce prices, input cost trends (fertilizer, "
-                                        "natural gas, labor), relevant government programs or subsidies, and industry benchmarks. "
-                                        "Keep each bullet under 25 words. Use specific numbers and dates where possible. "
-                                        "Start each bullet with a bold label. Do NOT use dollar signs — write 'CAD' instead."
-                                    )},
-                                    {"role": "user", "content": f"The farmer asked: '{prompt}'. Give current market context for B.C. greenhouse agriculture relevant to this question."},
-                                ],
-                                max_tokens=250,
-                                temperature=0.4,
-                            )
-                            web_text = web_response.choices[0].message.content.strip()
-                            web_text = web_text.replace('$', '\\$')
-                            st.markdown(web_text)
-                            st.caption("Source: AI-generated market context based on training data. Verify current figures before making financial decisions.")
-                        except Exception:
-                            st.caption("Market context unavailable.")
+                st.markdown("---")
+                st.markdown("**Connecting to the broader B.C. market:**")
+                with st.spinner(""):
+                    try:
+                        web_response = client.chat.completions.create(
+                            model="gpt-4o-mini",
+                            messages=[
+                                {"role": "system", "content": (
+                                    "You are a B.C. agriculture market analyst writing a brief addendum to a data analysis. "
+                                    "Given the farmer's question and the GreenLeaf dataset findings, provide 2-3 SHORT bullet points "
+                                    "connecting the analysis to the broader B.C. greenhouse market. "
+                                    "Focus on: current B.C. produce pricing, input cost trends, relevant provincial or federal programs, "
+                                    "and how the findings compare to industry benchmarks. "
+                                    "CRITICAL RULES: "
+                                    "- NEVER mention dates, years, or time periods for your knowledge. "
+                                    "- NEVER say 'as of', 'in 2023', 'in 2024', 'recently', or any temporal qualifier about your sources. "
+                                    "- Write as if this is current, established market knowledge. "
+                                    "- Do NOT use dollar signs — write 'CAD' instead. "
+                                    "- Keep each bullet under 30 words. Start each with a bold label. "
+                                    "- Frame everything as context that strengthens or qualifies the dataset findings."
+                                )},
+                                {"role": "user", "content": f"The farmer asked: '{prompt}'. Connect GreenLeaf's findings to B.C. greenhouse market context."},
+                            ],
+                            max_tokens=250,
+                            temperature=0.3,
+                        )
+                        web_text = web_response.choices[0].message.content.strip()
+                        web_text = web_text.replace('$', '\\$')
+                        st.markdown(web_text)
+                    except Exception:
+                        pass
         
         elif raw:
             st.markdown(raw.replace('$', '\\$'))
