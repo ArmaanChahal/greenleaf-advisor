@@ -1,0 +1,74 @@
+{
+  "summary_type": "financing_memo_summary",
+  "avg_season_roi": 0.428,
+  "total_profit_cad": 71653.82,
+  "total_revenue_cad": 238043.56,
+  "total_cost_cad": 166389.74,
+  "total_precision_benefit_cad": 47033.53,
+  "avg_yield_kg_m2": 6.62,
+  "avg_marketable_ratio": 0.9079,
+  "top_roi_plots": [
+    {
+      "plot_id": "P0013",
+      "season_roi": 1.2,
+      "season_profit_cad": 2161.63,
+      "precision_benefit_cad": 1405.06
+    },
+    {
+      "plot_id": "P0097",
+      "season_roi": 1.2,
+      "season_profit_cad": 1103.65,
+      "precision_benefit_cad": 717.37
+    },
+    {
+      "plot_id": "P0079",
+      "season_roi": 1.2,
+      "season_profit_cad": 1896.05,
+      "precision_benefit_cad": 1232.43
+    },
+    {
+      "plot_id": "P0086",
+      "season_roi": 1.2,
+      "season_profit_cad": 1628.86,
+      "precision_benefit_cad": 1058.76
+    },
+    {
+      "plot_id": "P0094",
+      "season_roi": 1.2,
+      "season_profit_cad": 1532.16,
+      "precision_benefit_cad": 995.91
+    }
+  ],
+  "top_precision_benefit_plots": [
+    {
+      "plot_id": "P0013",
+      "precision_benefit_cad": 1405.06,
+      "season_roi": 1.2,
+      "season_profit_cad": 2161.63
+    },
+    {
+      "plot_id": "P0079",
+      "precision_benefit_cad": 1232.43,
+      "season_roi": 1.2,
+      "season_profit_cad": 1896.05
+    },
+    {
+      "plot_id": "P0086",
+      "precision_benefit_cad": 1058.76,
+      "season_roi": 1.2,
+      "season_profit_cad": 1628.86
+    },
+    {
+      "plot_id": "P0094",
+      "precision_benefit_cad": 995.91,
+      "season_roi": 1.2,
+      "season_profit_cad": 1532.16
+    },
+    {
+      "plot_id": "P0043",
+      "precision_benefit_cad": 906.54,
+      "season_roi": 1.178,
+      "season_profit_cad": 1394.67
+    }
+  ]
+}

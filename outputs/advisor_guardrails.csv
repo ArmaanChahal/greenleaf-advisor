@@ -1,0 +1,6 @@
+Rule Order,Guardrail,Reason
+1,Use verified KPI outputs only,"The advisor should use Tableau/Python-generated metrics, not raw guesses."
+2,Do not invent numbers,"Recommendations must not contain unsupported costs, ROI values, yields, or plot claims."
+3,Return structured JSON first,Structured outputs make the advisor easier to validate and reuse.
+4,"Association, not causality",Response timing patterns do not prove causation by themselves.
+5,Explain recommendation evidence,Every recommendation should be connected to available KPI evidence.

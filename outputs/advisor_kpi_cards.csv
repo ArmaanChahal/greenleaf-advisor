@@ -1,0 +1,6 @@
+Card Order,Metric,Value,Label,Category
+1,Advisor Tools,4,Advisor Tools,System
+2,KPI Groups,5,KPI Groups,System
+3,Structured Outputs,JSON + CSV,Structured Outputs,Output
+4,Guardrail Rules,No Hallucination,Guardrail Rules,Trust
+5,Output Types,Farmer + Lender,Output Types,Output

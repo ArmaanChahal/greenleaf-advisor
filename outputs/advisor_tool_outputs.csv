@@ -1,0 +1,5 @@
+Tool Order,Tool Name,Purpose,Verified Inputs,Output
+1,rank_priority_plots,"Ranks high-urgency plots using alert count, plant stress, response delay, and no-response cases.","total_alerts, avg_plant_stress, avg_response_delay_days, no_response_count, urgency_score",Plot priority list plus reason.
+2,compare_response_timing,Compares response speed with post-action stress recovery by delay bucket and alert type.,"delay_bucket, alert_type, avg_stress_recovery, avg_response_delay_days, same_day_response_rate",Timing bottleneck summary.
+3,summarize_precision_roi,"Connects precision cost, routine cost, action count, precision benefit, and season ROI.","precision_cost, routine_cost, precision_action_count, precision_cost_share, avg_season_roi",ROI and cost-effectiveness summary.
+4,generate_financing_memo,"Turns verified profit, cost, ROI, yield, marketability, and precision benefit into a lender-ready summary.","total_profit_cad, total_cost_cad, avg_season_roi, avg_yield_kg_m2, avg_marketable_ratio",Financing memo draft.

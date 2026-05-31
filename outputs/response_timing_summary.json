@@ -1,0 +1,68 @@
+{
+  "summary_type": "response_timing_summary",
+  "important_note": "Negative stress delta means plant stress improved. Positive stress delta means stress worsened. These results show association, not proven causality.",
+  "delay_bucket_summary": [
+    {
+      "delay_bucket": "1-day delay",
+      "alert_count": 1906,
+      "avg_stress_recovery": -0.028,
+      "avg_response_delay_days": 1.0,
+      "same_day_response_rate": 0.0,
+      "worsening_stress_count": 495
+    },
+    {
+      "delay_bucket": "2+ day delay",
+      "alert_count": 847,
+      "avg_stress_recovery": -0.009,
+      "avg_response_delay_days": 2.0,
+      "same_day_response_rate": 0.0,
+      "worsening_stress_count": 349
+    },
+    {
+      "delay_bucket": "No response",
+      "alert_count": 1640,
+      "avg_stress_recovery": 0.0,
+      "avg_response_delay_days": 0.0,
+      "same_day_response_rate": 0.0,
+      "worsening_stress_count": 0
+    },
+    {
+      "delay_bucket": "Same-day",
+      "alert_count": 2067,
+      "avg_stress_recovery": -0.048,
+      "avg_response_delay_days": 0.0,
+      "same_day_response_rate": 1.0,
+      "worsening_stress_count": 264
+    }
+  ],
+  "alert_type_summary": [
+    {
+      "alert_type": "High Pest Pressure",
+      "alert_count": 6410,
+      "avg_stress_recovery": -0.025,
+      "avg_response_delay_days": 0.561,
+      "worsening_stress_count": 1108
+    },
+    {
+      "alert_type": "Low Moisture",
+      "alert_count": 11,
+      "avg_stress_recovery": -0.01,
+      "avg_response_delay_days": 0.182,
+      "worsening_stress_count": 0
+    },
+    {
+      "alert_type": "High VPD",
+      "alert_count": 18,
+      "avg_stress_recovery": -0.009,
+      "avg_response_delay_days": 0.056,
+      "worsening_stress_count": 0
+    },
+    {
+      "alert_type": "High Canopy Temp",
+      "alert_count": 6,
+      "avg_stress_recovery": 0.0,
+      "avg_response_delay_days": 0.0,
+      "worsening_stress_count": 0
+    }
+  ]
+}

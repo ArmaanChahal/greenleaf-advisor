@@ -1,0 +1,96 @@
+{
+  "summary_type": "plot_priority_summary",
+  "method": "Ranks plots using alert count, average plant stress, average response delay, and no-response cases.",
+  "top_priority_plots": [
+    {
+      "plot_id": "P0067",
+      "urgency_score": 150.826,
+      "total_alerts": 111,
+      "avg_plant_stress": 0.564,
+      "avg_response_delay_days": 0.262,
+      "no_response_count": 39,
+      "reason": "High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+    },
+    {
+      "plot_id": "P0060",
+      "urgency_score": 147.803,
+      "total_alerts": 103,
+      "avg_plant_stress": 0.56,
+      "avg_response_delay_days": 0.243,
+      "no_response_count": 44,
+      "reason": "High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+    },
+    {
+      "plot_id": "P0087",
+      "urgency_score": 146.79,
+      "total_alerts": 105,
+      "avg_plant_stress": 0.561,
+      "avg_response_delay_days": 0.229,
+      "no_response_count": 41,
+      "reason": "High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+    },
+    {
+      "plot_id": "P0029",
+      "urgency_score": 140.815,
+      "total_alerts": 104,
+      "avg_plant_stress": 0.549,
+      "avg_response_delay_days": 0.267,
+      "no_response_count": 36,
+      "reason": "High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+    },
+    {
+      "plot_id": "P0057",
+      "urgency_score": 139.825,
+      "total_alerts": 103,
+      "avg_plant_stress": 0.553,
+      "avg_response_delay_days": 0.271,
+      "no_response_count": 36,
+      "reason": "High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+    },
+    {
+      "plot_id": "P0017",
+      "urgency_score": 135.738,
+      "total_alerts": 94,
+      "avg_plant_stress": 0.538,
+      "avg_response_delay_days": 0.2,
+      "no_response_count": 41,
+      "reason": "High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+    },
+    {
+      "plot_id": "P0041",
+      "urgency_score": 134.75,
+      "total_alerts": 92,
+      "avg_plant_stress": 0.536,
+      "avg_response_delay_days": 0.214,
+      "no_response_count": 42,
+      "reason": "High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+    },
+    {
+      "plot_id": "P0056",
+      "urgency_score": 132.697,
+      "total_alerts": 88,
+      "avg_plant_stress": 0.521,
+      "avg_response_delay_days": 0.176,
+      "no_response_count": 44,
+      "reason": "High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+    },
+    {
+      "plot_id": "P0047",
+      "urgency_score": 129.707,
+      "total_alerts": 90,
+      "avg_plant_stress": 0.521,
+      "avg_response_delay_days": 0.186,
+      "no_response_count": 39,
+      "reason": "High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+    },
+    {
+      "plot_id": "P0105",
+      "urgency_score": 128.772,
+      "total_alerts": 98,
+      "avg_plant_stress": 0.548,
+      "avg_response_delay_days": 0.224,
+      "no_response_count": 30,
+      "reason": "High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "summary_type": "precision_roi_summary",
+  "precision_cost": 18646.47,
+  "routine_cost": 385403.37,
+  "precision_action_count": 799,
+  "routine_action_count": 8760,
+  "precision_cost_share": 0.0461,
+  "total_precision_benefit": 47033.53,
+  "avg_season_roi": 0.428,
+  "total_season_profit": 71653.82,
+  "avg_yield_kg_m2": 6.62,
+  "avg_marketable_ratio": 0.9079,
+  "input_type_cost_summary": [
+    {
+      "input_type": "Labor",
+      "total_cost": 43832.75
+    },
+    {
+      "input_type": "Fertilizer",
+      "total_cost": 37652.24
+    },
+    {
+      "input_type": "Pesticide",
+      "total_cost": 21318.23
+    },
+    {
+      "input_type": "Energy",
+      "total_cost": 5008.47
+    },
+    {
+      "input_type": "Water",
+      "total_cost": 1860.68
+    }
+  ]
+}

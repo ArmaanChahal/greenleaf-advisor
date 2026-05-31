@@ -1,0 +1,11 @@
+plot_id,urgency_score,total_alerts,avg_plant_stress,avg_response_delay_days,no_response_count,reason
+P0067,150.826,111,0.564,0.262,39,"High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+P0060,147.803,103,0.56,0.243,44,"High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+P0087,146.79,105,0.561,0.229,41,"High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+P0029,140.815,104,0.549,0.267,36,"High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+P0057,139.825,103,0.553,0.271,36,"High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+P0017,135.738,94,0.538,0.2,41,"High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+P0041,134.75,92,0.536,0.214,42,"High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+P0056,132.697,88,0.521,0.176,44,"High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+P0047,129.707,90,0.521,0.186,39,"High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
+P0105,128.772,98,0.548,0.224,30,"High urgency score based on alert count, plant stress, response delay, and unresolved alert cases."
